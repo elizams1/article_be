@@ -1,9 +1,8 @@
-package handler
+package main
 
 import (
 	"fmt"
 	"log"
-	"net/http"
 	"os"
 
 	"article_be/posts"
@@ -17,29 +16,7 @@ import (
 	"gorm.io/gorm"
 )
 
-var postsController *posts.PostsController
-
-func Handler(w http.ResponseWriter, r *http.Request) {
-	// Membuat router Gin untuk menangani HTTP request
-	router := gin.Default()
-
-	// Mendefinisikan rute
-	router.POST("/article", postsController.CreateUser)
-	router.GET("/article/list/:limit/:offset", postsController.GetPosts)
-	router.GET("/article/:id", postsController.GetPostByID)
-	router.PUT("/article/:id", postsController.UpdatePost)
-	router.DELETE("/article/:id", postsController.DeletePost)
-
-	// Menangani request
-	router.ServeHTTP(w, r)
-}
 func main() {
-
-	caDoc := "C:\\Users\\USER\\Downloads\\ca.pem"
-
-	if _, err := os.Stat(caDoc); os.IsNotExist(err) {
-		log.Fatal("File CA certificate tidak ditemukan di:", caDoc)
-	}
 
 	err := godotenv.Load()
 	if err != nil {

@@ -3,13 +3,17 @@
   "builds": [
     {
       "src": "cmd/api/main.go",
-      "use": "@vercel/go"
+      "use": "@vercel/go",
+      "config": {
+        "distDir": ".",
+        "includeFiles": ["**/*.go", "go.mod", "go.sum"]
+      }
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/cmd/api/main.go"
+      "dest": "/cmd/api"
     }
   ]
 }
