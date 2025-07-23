@@ -22,9 +22,7 @@ func main() {
 		log.Fatal("File CA certificate tidak ditemukan di:", caDoc)
 	}
 
-	// connectionString := fmt.Sprintf("avnadmin:AVNS_lbKcfpG_iiPH07RsxSR@tcp(mysql-36cbdda3-elizamaharani-eacf.f.aivencloud.com:14473)/defaultdb?tls=true&ssl-mode=VERIFY_CA&ssl-ca=%s", caDoc)
-	connectionString := "avnadmin:AVNS_lbKcfpG_iiPH07RsxSR@tcp(mysql-36cbdda3-elizamaharani-eacf.f.aivencloud.com:14473)/article"
-
+	connectionString := os.Getenv("AIVEN_CONNECTION_STRING")
 	db, err := gorm.Open(mysql.Open(connectionString), &gorm.Config{})
 	if err != nil {
 		log.Fatal("Gagal membuka koneksi:", err)
