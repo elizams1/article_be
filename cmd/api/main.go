@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"os"
 
-	"article_be/internal/posts"
+	"article_be/posts"
 
 	// _ "github.com/go-sql-driver/mysql"
 	// "github.com/jinzhu/gorm"
