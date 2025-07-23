@@ -56,5 +56,10 @@ func main() {
 	router.PUT("/article/:id", postsController.UpdatePost)
 	router.DELETE("/article/:id", postsController.DeletePost)
 
-	router.Run(":8080")
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
+	router.Run(":" + port)
 }
