@@ -7,29 +7,31 @@ import (
 	"article_be/posts"
 
 	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
 var (
-	db              *gorm.DB
 	postsController *posts.PostsController
 )
 
 func initDB() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
+	// err := godotenv.Load()
+	// if err != nil {
+	// 	log.Fatal("Error loading .env file")
+	// }
 
 	connectionString := os.Getenv("AIVEN_CONNECTION_STRING")
-	db, err = gorm.Open(mysql.Open(connectionString), &gorm.Config{})
+	if connectionString == "" {
+		log.Fatal("AIVEN_CONNECTION_STRING is not set")
+	}
+
+	db, err := gorm.Open(mysql.Open(connectionString), &gorm.Config{})
 	if err != nil {
 		log.Fatal("Failed to connect to the database:", err)
 	}
 
-	if err = db.AutoMigrate(&posts.Posts{}); err != nil {
+	if err := db.AutoMigrate(&posts.Posts{}); err != nil {
 		log.Fatal("Failed to migrate tables:", err)
 	}
 
