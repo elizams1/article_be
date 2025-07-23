@@ -2,18 +2,14 @@
   "version": 2,
   "builds": [
     {
-      "src": "cmd/api/main.go",
-      "use": "@vercel/go",
-      "config": {
-        "distDir": ".",
-        "includeFiles": ["**/*.go", "go.mod", "go.sum"]
-      }
+      "src": "cmd/api/handler/handler.go",  
+      "use": "@vercel/go"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/cmd/api"
+      "dest": "/cmd/api/handler/handler.go"  
     }
   ]
 }
