@@ -10,6 +10,8 @@ import (
 	// _ "github.com/go-sql-driver/mysql"
 	// "github.com/jinzhu/gorm"
 
+	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -22,7 +24,13 @@ func main() {
 		log.Fatal("File CA certificate tidak ditemukan di:", caDoc)
 	}
 
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
 	connectionString := os.Getenv("AIVEN_CONNECTION_STRING")
+	log.Println(("connectionString: " + connectionString))
 	db, err := gorm.Open(mysql.Open(connectionString), &gorm.Config{})
 	if err != nil {
 		log.Fatal("Gagal membuka koneksi:", err)
@@ -35,4 +43,18 @@ func main() {
 
 	fmt.Println("Berhasil terhubung ke database Aiven MySQL!")
 
+	// Inisialisasi repository dan usecase
+	postRepo := posts.NewPostsRepository(db)
+	postUsecase := posts.NewPostsUsecase(postRepo)
+	postsController := posts.NewPostsController(postUsecase)
+
+	router := gin.Default()
+
+	router.POST("/article", postsController.CreateUser)
+	router.GET("/article/list/:limit/:offset", postsController.GetPosts)
+	router.GET("/article/:id", postsController.GetPostByID)
+	router.PUT("/article/:id", postsController.UpdatePost)
+	router.DELETE("/article/:id", postsController.DeletePost)
+
+	router.Run(":8080")
 }
