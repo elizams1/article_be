@@ -1,4 +1,4 @@
-package main
+package handler
 
 import (
 	"fmt"
@@ -19,6 +19,20 @@ import (
 
 var postsController *posts.PostsController
 
+func Handler(w http.ResponseWriter, r *http.Request) {
+	// Membuat router Gin untuk menangani HTTP request
+	router := gin.Default()
+
+	// Mendefinisikan rute
+	router.POST("/article", postsController.CreateUser)
+	router.GET("/article/list/:limit/:offset", postsController.GetPosts)
+	router.GET("/article/:id", postsController.GetPostByID)
+	router.PUT("/article/:id", postsController.UpdatePost)
+	router.DELETE("/article/:id", postsController.DeletePost)
+
+	// Menangani request
+	router.ServeHTTP(w, r)
+}
 func main() {
 
 	caDoc := "C:\\Users\\USER\\Downloads\\ca.pem"
@@ -65,19 +79,4 @@ func main() {
 	}
 
 	router.Run(":" + port)
-}
-
-func Handler(w http.ResponseWriter, r *http.Request) {
-	// Membuat router Gin untuk menangani HTTP request
-	router := gin.Default()
-
-	// Mendefinisikan rute
-	router.POST("/article", postsController.CreateUser)
-	router.GET("/article/list/:limit/:offset", postsController.GetPosts)
-	router.GET("/article/:id", postsController.GetPostByID)
-	router.PUT("/article/:id", postsController.UpdatePost)
-	router.DELETE("/article/:id", postsController.DeletePost)
-
-	// Menangani request
-	router.ServeHTTP(w, r)
 }
