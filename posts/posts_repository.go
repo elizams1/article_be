@@ -44,10 +44,11 @@ func (r *postsRepository) CreatePost(post *Posts) error {
 
 func (r *postsRepository) UpdatePost(id int, post *Posts) error {
 	var existingPost Posts
-	err := r.db.First(&existingPost, id)
+	err := r.db.First(&existingPost, id).Error
 	if err != nil {
-		return err.Error
+		return err
 	}
+
 	post.ID = existingPost.ID
 	if post.Title == "" {
 		post.Title = existingPost.Title
@@ -69,9 +70,9 @@ func (r *postsRepository) UpdatePost(id int, post *Posts) error {
 
 func (r *postsRepository) DeletePost(id int) error {
 	var existingPost Posts
-	err := r.db.First(&existingPost, id)
+	err := r.db.First(&existingPost, id).Error
 	if err != nil {
-		return err.Error
+		return err
 	}
 	return r.db.Delete(&existingPost, id).Error
 }

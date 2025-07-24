@@ -5,7 +5,7 @@ import (
 )
 
 type Posts struct {
-	ID          int       `json:"id" db:"id" gorm:"primaryKey;autoIncrement"`
+	ID          uint      `json:"id" db:"id" gorm:"primaryKey;autoIncrement"`
 	Title       string    `json:"title" db:"title" validate:"required,min=20" gorm:"type:varchar(200);not null"`
 	Content     string    `json:"content" db:"content" validate:"required,min=200" gorm:"type:text;not null"`
 	Category    string    `json:"category" db:"category" validate:"required,min=3" gorm:"type:varchar(100);not null"`

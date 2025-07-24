@@ -1,7 +1,6 @@
 package posts
 
 import (
-	"log"
 	"strconv"
 	"time"
 
@@ -39,8 +38,6 @@ func (c *PostsController) CreateUser(ctx *gin.Context) {
 	post.CreatedDate = time.Now().UTC()
 	post.UpdatedDate = time.Now().UTC()
 
-	log.Printf("post: %v", post)
-
 	if err := c.usecase.CreatePost(&post); err != nil {
 		ctx.JSON(500, gin.H{"error": err.Error()})
 		return
@@ -56,7 +53,6 @@ func (c *PostsController) GetPosts(ctx *gin.Context) {
 	offset := ctx.Param("offset")
 	offset_int, err := strconv.Atoi(offset)
 
-	log.Println(limit_int, offset_int)
 	if limit_int == 0 {
 		limit_int = 10
 	}
@@ -97,10 +93,12 @@ func (c *PostsController) UpdatePost(ctx *gin.Context) {
 		ctx.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
+
 	if err := validate.Struct(post); err != nil {
 		ctx.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
+
 	if err := c.usecase.UpdatePost(id_int, &post); err != nil {
 		ctx.JSON(500, gin.H{"error": err.Error()})
 		return

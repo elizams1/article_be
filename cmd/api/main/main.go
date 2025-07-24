@@ -48,7 +48,7 @@ func setupRouter() *gin.Engine {
 	router := gin.Default()
 
 	corsConfig := cors.DefaultConfig()
-	corsConfig.AllowOrigins = []string{"*"} // Allow all origins (you can restrict this)
+	corsConfig.AllowOrigins = []string{"*"}
 	corsConfig.AllowMethods = []string{"GET", "POST", "PUT", "DELETE"}
 	corsConfig.AllowHeaders = []string{"Origin", "Content-Type", "Authorization"}
 	corsConfig.AllowCredentials = true
@@ -63,7 +63,6 @@ func setupRouter() *gin.Engine {
 	return router
 }
 
-// Main function for local development
 func main() {
 	initDB()
 
