@@ -6,6 +6,7 @@ import (
 
 	"article_be/posts"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
@@ -45,6 +46,15 @@ func initDB() {
 
 func setupRouter() *gin.Engine {
 	router := gin.Default()
+
+	corsConfig := cors.DefaultConfig()
+	corsConfig.AllowOrigins = []string{"*"} // Allow all origins (you can restrict this)
+	corsConfig.AllowMethods = []string{"GET", "POST", "PUT", "DELETE"}
+	corsConfig.AllowHeaders = []string{"Origin", "Content-Type", "Authorization"}
+	corsConfig.AllowCredentials = true
+
+	router.Use(cors.New(corsConfig))
+
 	router.POST("/article", postsController.CreateUser)
 	router.GET("/article/list/:limit/:offset", postsController.GetPosts)
 	router.GET("/article/:id", postsController.GetPostByID)

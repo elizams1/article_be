@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -15,13 +16,7 @@ var (
 	postsController *posts.PostsController
 )
 
-// Handler function that Vercel will use
 func Handler(w http.ResponseWriter, r *http.Request) {
-	// err := godotenv.Load()
-	// if err != nil {
-	// 	log.Fatal("Error loading .env file")
-	// }
-
 	connectionString := os.Getenv("AIVEN_CONNECTION_STRING")
 	db, err := gorm.Open(mysql.Open(connectionString), &gorm.Config{})
 	if err != nil {
@@ -39,6 +34,14 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	postsController = posts.NewPostsController(postUsecase)
 
 	router := gin.Default()
+
+	corsConfig := cors.DefaultConfig()
+	corsConfig.AllowOrigins = []string{"*"} // Allow all origins (you can restrict this)
+	corsConfig.AllowMethods = []string{"GET", "POST", "PUT", "DELETE"}
+	corsConfig.AllowHeaders = []string{"Origin", "Content-Type", "Authorization"}
+	corsConfig.AllowCredentials = true
+
+	router.Use(cors.New(corsConfig))
 
 	// Define routes
 	router.POST("/article", postsController.CreateUser)
