@@ -6,6 +6,7 @@ type PostsUsecase interface {
 	CreatePost(post *Posts) error
 	UpdatePost(id int, post *Posts) error
 	DeletePost(id int) error
+	SoftDeletePost(id int) error
 }
 
 type postsUsecase struct {
@@ -30,4 +31,8 @@ func (u *postsUsecase) UpdatePost(id int, post *Posts) error {
 }
 func (u *postsUsecase) DeletePost(id int) error {
 	return u.repository.DeletePost(id)
+}
+
+func (u *postsUsecase) SoftDeletePost(id int) error {
+	return u.repository.SoftDeletePost(id)
 }

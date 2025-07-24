@@ -120,3 +120,18 @@ func (c *PostsController) DeletePost(ctx *gin.Context) {
 	}
 	ctx.JSON(200, gin.H{"message": "Post deleted successfully"})
 }
+
+func (c *PostsController) SoftDeletePost(ctx *gin.Context) {
+	id := ctx.Param("id")
+	id_int, err := strconv.Atoi(id)
+	if err != nil {
+		ctx.JSON(400, gin.H{"error": "Invalid ID"})
+		return
+	}
+
+	if err := c.usecase.SoftDeletePost(id_int); err != nil {
+		ctx.JSON(500, gin.H{"error": err.Error()})
+		return
+	}
+	ctx.JSON(200, gin.H{"message": "Post soft deleted successfully"})
+}

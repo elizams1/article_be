@@ -60,6 +60,7 @@ func setupRouter() *gin.Engine {
 	router.GET("/article/:id", postsController.GetPostByID)
 	router.PUT("/article/:id", postsController.UpdatePost)
 	router.DELETE("/article/:id", postsController.DeletePost)
+	router.POST("/article/soft-delete/:id", postsController.SoftDeletePost)
 	return router
 }
 

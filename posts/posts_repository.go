@@ -12,6 +12,7 @@ type PostsRepository interface {
 	CreatePost(post *Posts) error
 	UpdatePost(id int, post *Posts) error
 	DeletePost(id int) error
+	SoftDeletePost(id int) error
 }
 
 type postsRepository struct {
@@ -75,4 +76,14 @@ func (r *postsRepository) DeletePost(id int) error {
 		return err
 	}
 	return r.db.Delete(&existingPost, id).Error
+}
+
+func (r *postsRepository) SoftDeletePost(id int) error {
+	var existingPost Posts
+	err := r.db.First(&existingPost, id).Error
+	if err != nil {
+		return err
+	}
+	existingPost.Status = "trash"
+	return r.db.Save(&existingPost).Error
 }

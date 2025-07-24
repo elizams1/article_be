@@ -48,6 +48,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	router.GET("/article/:id", postsController.GetPostByID)
 	router.PUT("/article/:id", postsController.UpdatePost)
 	router.DELETE("/article/:id", postsController.DeletePost)
+	router.POST("/article/soft-delete/:id", postsController.SoftDeletePost)
 
 	// Serve HTTP request
 	router.ServeHTTP(w, r)
