@@ -43,7 +43,6 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 	router.Use(cors.New(corsConfig))
 
-	// Define routes
 	router.POST("/article", postsController.CreateUser)
 	router.GET("/article/list/:limit/:offset", postsController.GetPosts)
 	router.GET("/article/:id", postsController.GetPostByID)
