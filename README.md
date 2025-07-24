@@ -2,7 +2,7 @@
 
 1. clone this repository
    `https://github.com/elizams1/article_be.git`
-2. go get for get all package that use in this project
+2. `go get` for get all package that use in this project
    - gin : framework for routing
    - air : `go install github.com/air-verse/air@latest` help me for run go project
    - godotenv : help me for read .env
